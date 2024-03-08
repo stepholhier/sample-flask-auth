@@ -21,15 +21,16 @@ def login():
     data = request.json
     username = data.get("username")
     password = data.get("password")
-
+        
     if username and password:
-        #Login
-        user = User.query.filter_by(username=username).first()
+            user = User.query.filter_by(username=username).first()
 
-        if user.password == password:
-            login_user(user)
-            print(current_user.is_authenticated)
-            return jsonify({"message": "Autenticação realizada com sucesso"})
+    # Adiciona verificação se user não é None
+    if user and user.password == password:
+        login_user(user)
+        print(current_user.is_authenticated)
+        return jsonify({"message": "Autenticação realizada com sucesso"})
+
     
     return jsonify({"message": "Credenciais inválidas"}), 400
 
